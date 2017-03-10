@@ -324,7 +324,8 @@ function InitializeAnnotationTools(tag_button, tag_canvas){
       document.getElementById("polygonDiv").setAttribute('style', 'opacity: 1');
       document.getElementById("polygonDiv").setAttribute('style', 'border-color: #f00');
     }
-    if (video_mode) SetPolygonDrawingMode(true);
+    //if (video_mode) SetPolygonDrawingMode(true);
+    SetPolygonDrawingMode(true);
     
 }
 
