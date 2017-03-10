@@ -85,7 +85,7 @@ elsif($mode eq "c") {
     $im_file = $all_images[$c+1];
     $im_dir = $folder;
 }
-elsif($mode eq "f") {
+elsif($mode eq "ahp") {
     opendir(DIR,$LM_HOME . "Images/$folder") || die("Cannot read folder $LM_HOME/Images/$folder");
     my @all_images = readdir(DIR);
     closedir(DIR);
@@ -139,6 +139,44 @@ elsif($mode eq "f") {
 #    $im_file =~ tr/"\n"//d; # remove trailing newline
 #    
 #    close(FP);
+}
+elsif($mode eq "f") {
+    opendir(DIR,$LM_HOME . "Images/$folder") || die("Cannot read folder $LM_HOME/Images/$folder");
+    my @all_images = readdir(DIR);
+    @all_images = sort @all_images;
+    closedir(DIR);
+    my $i = 0;
+    $im_dir = $folder;
+    $im_file = $all_images[$i];
+    
+    if(-d $LM_HOME . "Annotations/$folder"){
+        opendir(DIR,$LM_HOME . "Annotations/$folder") || die("Cannot read folder $LM_HOME/Annotations/$folder");
+        my @all_annotations = readdir(DIR);
+        closedir(DIR);
+
+        $i = scalar(@all_annotations);
+        if( scalar(@all_annotations) == scalar(@all_images)){
+            $i = 0;
+            do {
+            $i = ($i + 1) % scalar(@all_images);
+            
+            $im_dir = $folder;
+            $im_file = $all_images[$i];
+            }
+            while(!($im_file =~ m/\.jpg$/))
+        }
+        $im_dir = $folder;
+        $im_file = $all_images[$i];
+    }
+    
+    # take another image if the one choosed is not a .jpg
+    # do {
+    # $i = ($i + 1) % scalar(@all_images);
+    
+    # $im_dir = $folder;
+    # $im_file = $all_images[$i];
+    # }
+    # while(!($im_file =~ m/\.jpg$/))
 }
 
 # Send back data:
